@@ -1,0 +1,172 @@
+:root {
+    /* Watermelon / Dragonfruit Palette */
+    --bg-color: #FFF9C4;
+    /* Soft Cream */
+    --text-color: #2E7D32;
+    /* Dark Green */
+    --bar-bg: #C8E6C9;
+    /* Pale Green */
+    --bar-fill: #F06292;
+    /* Vibrant Pink */
+    --bar-border: #fff;
+
+    /* Sizing Variables */
+    --dino-size: clamp(60px, 15vh, 90px);
+    /* Adjusted to rely more on VH for fitting */
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* Strictly no scrolling */
+    overscroll-behavior: none;
+    /* No bounce effects */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    height: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* Distributes vertical space automatically */
+    align-items: center;
+    text-align: center;
+    padding: 2vh 0;
+    /* Minimal vertical padding */
+}
+
+h1 {
+    font-size: clamp(1rem, 4vh, 1.8rem);
+    /* Scale with height to ensure fit */
+    margin: 0;
+    line-height: 1.4;
+    color: #1B5E20;
+    flex-shrink: 0;
+}
+
+.progress-container {
+    position: relative;
+    width: 100%;
+    height: clamp(30px, 6vh, 50px);
+    margin: 2vh 0;
+    /* Use VH for dynamic spacing */
+    flex-shrink: 0;
+}
+
+.progress-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bar-bg);
+    border-radius: 25px;
+    border: clamp(3px, 1vw, 6px) solid var(--bar-border);
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: var(--bar-fill);
+    border-radius: 25px;
+    transition: width 0.1s linear;
+}
+
+.dino {
+    position: absolute;
+    top: calc(var(--dino-size) * -0.75);
+    left: 0%;
+    transform: translateX(0%);
+    width: var(--dino-size);
+    height: var(--dino-size);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.dino img {
+    width: 130%;
+    height: auto;
+    image-rendering: pixelated;
+    filter: drop-shadow(2px 4px 0px rgba(0, 0, 0, 0.1));
+}
+
+.percentage {
+    font-size: clamp(1.2rem, 5vh, 2rem);
+    margin: 0;
+    color: #E91E63;
+    flex-shrink: 0;
+}
+
+.message {
+    margin: 0;
+    opacity: 0;
+    transform: scale(0.5);
+    display: none;
+    flex-shrink: 1;
+    /* Allow shrinking if needed */
+}
+
+.message h2 {
+    font-size: clamp(1rem, 4vh, 1.5rem);
+    margin-bottom: 1vh;
+    color: #D81B60;
+}
+
+.message p {
+    font-size: clamp(0.8rem, 3vh, 1rem);
+    line-height: 1.4;
+    color: #4A148C;
+}
+
+.fact-container {
+    margin: 0;
+    padding: clamp(1rem, 2vh, 1.5rem);
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    border: 2px solid var(--bar-bg);
+    width: 100%;
+    transition: opacity 0.5s ease;
+    flex-shrink: 1;
+    /* Allow it to shrink if heavily constrained */
+    overflow: hidden;
+    /* Ensure no scroll bars appear within the card */
+}
+
+.fact-title {
+    font-size: clamp(0.7rem, 3vh, 1rem);
+    color: #D81B60;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.fact-body {
+    font-size: clamp(0.6rem, 2.5vh, 0.9rem);
+    color: #1B5E20;
+    line-height: 1.4;
+}
