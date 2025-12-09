@@ -1,5 +1,5 @@
 const START_DATE = new Date('2025-12-05T19:00:00').getTime();
-const END_DATE = new Date('2025-12-14T17:00:00').getTime();
+const END_DATE = new Date('2025-12-14T06:00:00').getTime();
 
 const FACT_START_DATE = new Date('2025-12-08T21:00:00').getTime();
 const FACT_INTERVAL = 10 * 60 * 60 * 1000; // 10 hours
