@@ -170,3 +170,24 @@ h1 {
     color: #1B5E20;
     line-height: 1.4;
 }
+
+/* Flower Shower Overlay - Isolated from page layout */
+.flower-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+/* Flower - positioned within overlay */
+.flower {
+    position: absolute;
+    top: -50px;
+    font-size: 2rem;
+    pointer-events: none;
+    user-select: none;
+}

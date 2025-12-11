@@ -127,36 +127,107 @@ function completeAnimation() {
             ease: "back.out(1.7)"
         }, "-=0.5");
 
-    // Trigger Confetti
-    triggerConfetti();
+    // Trigger Flower Shower
+    startFlowerShower();
     // Simple confetti effect using DOM elements could be added here
     // But for simplicity, we'll stick to the bounce and message
 }
 
-function triggerConfetti() {
-    const duration = 3000;
+function startFlowerShower() {
+    const flowers = ['assets/sakura.gif', 'assets/sakura2.gif'];
+    const duration = 15000; // Run for 15 seconds
     const end = Date.now() + duration;
 
-    (function frame() {
-        confetti({
-            particleCount: 5,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
-            colors: ['#F06292', '#C8E6C9', '#FFF9C4'] // Match palette
-        });
-        confetti({
-            particleCount: 5,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
-            colors: ['#F06292', '#C8E6C9', '#FFF9C4']
+    // Create isolated overlay container
+    // Appending to documentElement (<html>) to escape Body's Flexbox context
+    const overlay = document.createElement('div');
+    // Using inline styles to guarantee positioning against CSS caching or spec issues
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        overflow: hidden;
+    `;
+    document.documentElement.appendChild(overlay);
+
+    function createFlower() {
+        // Use img element for GIFs
+        const flower = document.createElement('img');
+        const selectedFlower = flowers[Math.floor(Math.random() * flowers.length)];
+        flower.src = selectedFlower;
+
+        // Inline styles for flower
+        const startX = Math.random() * 100; // 0-100% width
+
+        // Size calculation based on file type
+        let sizeMultiplier = 1;
+        if (selectedFlower.includes('sakura2.gif')) {
+            sizeMultiplier = 3;
+        } else {
+            sizeMultiplier = 5.5;
+        }
+
+        const baseSize = Math.random() * 1.5 + 1.5; // Base 1.5rem to 3rem
+        const size = 1.5 * sizeMultiplier;
+
+        flower.style.cssText = `
+            position: absolute;
+            top: -200px; /* Start higher due to larger size */
+            left: ${startX}%;
+            width: ${size}rem; /* Use width for images */
+            height: auto;
+            pointer-events: none;
+            user-select: none;
+        `;
+
+        overlay.appendChild(flower);
+
+        // Animation parameters
+        const fallDuration = Math.random() * 5 + 8; // 8 to 13s
+        const swayAmount = Math.random() * 100 - 50; // -50px to +50px
+
+        // Simplified GSAP Animation
+        // Fall
+        gsap.to(flower, {
+            y: window.innerHeight + 200,
+            duration: fallDuration,
+            ease: 'none',
+            onComplete: () => flower.remove()
         });
 
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
+        // Sway (gentle oscillation)
+        gsap.to(flower, {
+            x: swayAmount,
+            duration: Math.random() * 2 + 2,
+            yoyo: true,
+            repeat: -1,
+            ease: 'sine.inOut'
+        });
+
+        // Rotation
+        gsap.to(flower, {
+            rotation: Math.random() * 360 - 180,
+            duration: fallDuration,
+            ease: 'none'
+        });
+    }
+
+    // Create flowers at intervals
+    const interval = setInterval(() => {
+        if (Date.now() > end) {
+            clearInterval(interval);
+            // Remove overlay after flowers clear
+            setTimeout(() => {
+                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+            }, 15000);
+            return;
         }
-    }());
+        createFlower();
+    }, 200);
 }
 
 // Start
